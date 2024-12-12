@@ -44,6 +44,19 @@ result = pickGifts([25, 64, 9, 4, 100], 4)
 print("Result:", result)
 
 
+ACTUAL:
+class Solution:
+    def pickGifts(self, gifts: List[int], k: int) -> int:
+        data = [-data for data in gifts]
+        heapify(data)
+        for _ in range (k):
+            curr = -heapq.heappop(data)
+            heapq.heappush(data, -int(math.sqrt(curr)))
+        return -sum(data)
+
+        
+
+
 TIME COMPLEXITY: build heap - O(n)
 remove element / push element in heap for k no. of times - O(logn)
 TOTAL tc = O(n+klogn)
