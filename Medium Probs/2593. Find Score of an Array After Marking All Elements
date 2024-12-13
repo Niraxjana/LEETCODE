@@ -1,0 +1,77 @@
+                                                                          2593. Find Score of an Array After Marking All Elements
+
+ Description :
+Given an array nums consisting of positive integers.
+1.Choose the smallest integer of the array that is not marked. If there is a tie, choose the one with the smallest index.
+2.Add the value of the chosen integer to score.
+3.Mark the chosen element and its two adjacent elements if they exist.
+4.Repeat until all the array elements are marked.
+
+APPROACH:
+1.Initialization: Create a min-heap of (value, index) from the input list nums, initialize total_sum = 0, and a marked_index set to track processed indices.
+2.Heap Processing: Continuously extract the smallest element from the heap while skipping indices already in marked_index.
+3.Update Total and Mark Indices: Add the value of the extracted element to total_sum and mark its index and immediate neighbors (left and right) to avoid double-counting.
+4.Repeat Until Heap is Empty: Continue extracting elements and updating total_sum until all elements are either marked or processed.
+5.Return Result: After processing all elements, return the accumulated total_sum.
+
+PROGRAM:
+import heapq
+
+def findScore(nums):
+    total_sum = 0
+    marked_index = set()
+    
+    n = len(nums)
+    # Create a min-heap with (value, index)
+    min_heap = [(val,i) for i, val in enumerate(nums)]
+    heapq.heapify(min_heap)
+    print("Heap after heapify:", min_heap)
+    
+    while min_heap:
+        val, index = heapq.heappop(min_heap)
+        #print(min_heap)
+        if index in marked_index:
+            continue
+        
+        total_sum += val
+        marked_index.add(index)
+        if index - 1 >= 0:
+            marked_index.add(index - 1)
+        if index + 1 < n:
+            marked_index.add(index + 1)
+    
+    return total_sum
+nums = [2, 3, 5, 1, 3, 2]
+print(findScore(nums))  # Expected output based on the logic
+
+
+SUBMIITTED Soln:
+class Solution:
+    def findScore(self, nums: List[int]) -> int:
+        total_sum = 0
+        marked_index=set()
+        
+        n = len(nums)
+        min_heap=[(val,i) for i,val in enumerate(nums)]
+        heapq.heapify(min_heap)
+        
+        while min_heap:
+            val, index = heappop(min_heap)
+            if index in marked_index:
+                continue
+            
+            total_sum += val
+            marked_index.add(index)
+            if index - 1 >= 0:
+                marked_index.add(index - 1)
+            if index + 1 < n:
+                marked_index.add(index + 1)
+        
+        return total_sum
+
+
+TIme complexity:
+O(NlogN)
+
+
+
